@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Super Smart · MVP</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">28002 · Cesta inteligente</p>
+          <h1>Super Smart</h1>
+          <p class="subtitle">Prioriza el ahorro usando productos idénticos o equivalentes con trazabilidad.</p>
+        </div>
+        <div id="quality" class="quality">Cargando catálogo…</div>
+      </header>
+
+      <div class="notice"><strong>Importante:</strong> los precios iniciales proceden de tu catálogo histórico. Añade una observación reciente antes de tomar una decisión de compra.</div>
+
+      <section class="grid">
+        <article class="panel">
+          <h2>Tu cesta</h2>
+          <div class="row add-row">
+            <label>Producto
+              <select id="product-select"></select>
+            </label>
+            <label>Cantidad
+              <input id="quantity" type="number" min="0.1" step="0.1" value="1">
+            </label>
+            <button id="add-item">Añadir</button>
+          </div>
+          <div id="basket" class="basket empty">Añade productos al carrito.</div>
+          <div class="controls">
+            <label><input id="equivalents" type="checkbox" checked> Permitir equivalentes</label>
+            <label><input id="loyalty" type="checkbox" checked> Aplicar Club Carrefour / Cuenta BM si procede</label>
+            <label>Máx. tiendas <input id="max-stores" type="number" min="1" max="5" value="3"></label>
+            <label>Coste por tienda extra (€) <input id="extra-cost" type="number" min="0" step="0.5" value="0"></label>
+          </div>
+          <button id="optimize" class="primary">Optimizar ahorro</button>
+        </article>
+
+        <article class="panel">
+          <h2>Resultado</h2>
+          <div id="result" class="result empty">Todavía no hay una cesta optimizada.</div>
+        </article>
+      </section>
+
+      <section class="grid lower">
+        <article class="panel">
+          <h2>Registrar precio reciente</h2>
+          <form id="observation-form" class="form-grid">
+            <label>Producto <select id="obs-product"></select></label>
+            <label>Tienda <select id="obs-store"><option>Mercadona</option><option>BM</option><option>Carrefour</option></select></label>
+            <label>Precio total (€) <input id="obs-price" type="number" min="0.01" step="0.01" required></label>
+            <label>Descuento (€) <input id="obs-promo" type="number" min="0" step="0.01" value="0"></label>
+            <label>Fecha <input id="obs-date" type="date"></label>
+            <label><input id="obs-loyalty" type="checkbox"> Requiere fidelización</label>
+            <button class="secondary" type="submit">Guardar observación</button>
+          </form>
+          <p id="observation-status" class="muted"></p>
+        </article>
+        <article class="panel">
+          <h2>Cómo interpreta los datos</h2>
+          <ul>
+            <li><strong>Alta confianza:</strong> mismo EAN o producto exacto.</li>
+            <li><strong>Media/baja:</strong> equivalente por categoría, nombre y formato.</li>
+            <li>Los descuentos se aplican solo si indicas que eres elegible.</li>
+            <li>El coste de desplazamiento es configurable; el MVP no calcula rutas aún.</li>
+          </ul>
+        </article>
+      </section>
+    </main>
+    <template id="basket-item-template"><div class="basket-item"><span></span><input type="number" min="0.1" step="0.1"><button class="remove">Quitar</button></div></template>
+    <script src="/app.js"></script>
+  </body>
+</html>

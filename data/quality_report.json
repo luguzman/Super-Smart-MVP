@@ -1,0 +1,201 @@
+{
+  "generated_on": "2026-10-02",
+  "products": 67,
+  "observations": 63,
+  "missing_price": 4,
+  "missing_ean": 39,
+  "missing_source_url": 67,
+  "semantic_flags": [
+    {
+      "product_id": "P009",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P010",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P011",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P012",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P013",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P014",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P015",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P016",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P017",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P018",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P019",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P020",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P021",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P022",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P023",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P024",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P025",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P026",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P027",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P028",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P029",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P030",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P031",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P032",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P033",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P034",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P035",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P036",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P037",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P038",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P039",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P040",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P041",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P042",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P043",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P044",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P045",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    },
+    {
+      "product_id": "P046",
+      "field": "porcion_declarada_g/porciones_por_envase",
+      "reason": "Valores semánticamente incompatibles con peso y/o precio; no se usan en el optimizador."
+    }
+  ],
+  "disclaimer": "Los precios importados proceden del catálogo histórico y requieren actualización antes de una compra real."
+}
