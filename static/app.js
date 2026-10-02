@@ -121,5 +121,13 @@ document.querySelector('#observation-form').addEventListener('submit', async eve
   status.textContent = payload.saved ? 'Precio guardado. Vuelve a optimizar la cesta.' : payload.error;
   if (payload.saved) event.target.reset();
 });
+document.querySelector('#import-csv').addEventListener('click', async () => {
+  const file = document.querySelector('#csv-file').files[0];
+  const status = document.querySelector('#csv-status');
+  if (!file) { status.textContent = 'Selecciona un archivo CSV.'; return; }
+  const response = await fetch('/api/import-prices', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({csv_text: await file.text()})});
+  const payload = await response.json();
+  status.textContent = payload.imported ? `Importadas ${payload.imported} observaciones. Vuelve a optimizar.` : payload.error;
+});
 
 load();

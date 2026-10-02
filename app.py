@@ -11,6 +11,8 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
 
+from import_prices import PriceImportError, import_csv_text
+
 
 ROOT = Path(__file__).parent
 DATA = ROOT / "data"
@@ -56,6 +58,20 @@ def effective_price(observation, include_loyalty):
     return max(0, observation["price_eur"] - observation.get("promotion_eur", 0))
 
 
+def latest_observations(observations):
+    """Evita que un precio histórico gane frente a una captura reciente."""
+    selected = {}
+    for observation in observations:
+        key = (observation.get("product_id"), str(observation.get("store", "")).lower())
+        rank = (
+            observation.get("observed_on") or "0000-00-00",
+            observation.get("source") != "catalogo_historico",
+        )
+        if key not in selected or rank >= selected[key][0]:
+            selected[key] = (rank, observation)
+    return [value[1] for value in selected.values()]
+
+
 def build_candidates(requested, products, observations, allow_equivalents, include_loyalty):
     candidates = []
     for observation in observations:
@@ -76,7 +92,9 @@ def build_candidates(requested, products, observations, allow_equivalents, inclu
 
 def optimize(payload):
     catalog = {product["id"]: product for product in load_json(DATA / "catalog.json", [])}
-    observations = load_json(DATA / "price_observations.json", []) + load_json(CUSTOM_OBSERVATIONS, [])
+    observations = latest_observations(
+        load_json(DATA / "price_observations.json", []) + load_json(CUSTOM_OBSERVATIONS, [])
+    )
     items = payload.get("items", [])
     include_loyalty = bool(payload.get("include_loyalty", True))
     allow_equivalents = bool(payload.get("allow_equivalents", True))
@@ -170,6 +188,12 @@ class Handler(SimpleHTTPRequestHandler):
             })
             CUSTOM_OBSERVATIONS.write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
             return self.send_json({"saved": True})
+        if route == "/api/import-prices":
+            try:
+                imported = import_csv_text(payload.get("csv_text", ""), DATA / "catalog.json", CUSTOM_OBSERVATIONS)
+            except PriceImportError as error:
+                return self.send_json({"error": str(error)}, HTTPStatus.BAD_REQUEST)
+            return self.send_json({"imported": len(imported)})
         return self.send_json({"error": "Ruta no encontrada"}, HTTPStatus.NOT_FOUND)
 
 

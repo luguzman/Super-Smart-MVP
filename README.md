@@ -18,6 +18,18 @@ Abre `http://127.0.0.1:8000` en el navegador.
 - Cesta con cantidades, equivalentes opcionales, límite de tiendas y coste por tienda adicional.
 - Optimizador que reduce el coste efectivo y señala coincidencias exactas o equivalentes.
 - Registro local de descuentos de Club Carrefour y Cuenta BM.
+- Importación CSV validada desde la interfaz o la línea de comandos.
+- Tests unitarios y workflow de GitHub Actions.
+
+## Importar precios recientes
+
+Parte de `examples/precios_28002_template.csv`. Cada fila debe contener producto, supermercado, precio, fecha y, opcionalmente, descuento, requisito de fidelización y URL fuente. Puedes importarlo desde la aplicación o ejecutar:
+
+```bash
+python import_prices.py examples/precios_28002_template.csv
+```
+
+Una nueva observación del mismo producto, tienda y día sustituye la importada previamente. Las observaciones más recientes prevalecen sobre el precio histórico del catálogo.
 
 ## Límites conscientes del MVP
 

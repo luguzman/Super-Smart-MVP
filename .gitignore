@@ -1,0 +1,4 @@
+__pycache__/
+*.py[cod]
+data/local_price_observations.json
+.DS_Store
