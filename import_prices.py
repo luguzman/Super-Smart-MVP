@@ -117,5 +117,21 @@ def main():
     print(f"Importadas {len(imported)} observaciones en {args.output}.")
 
 
+_parse_price_csv_without_fixture_guard = parse_price_csv
+
+
+def parse_price_csv(*args, **kwargs):
+    """Preserva el parser existente y bloquea fuentes sintéticas de fixture."""
+    rows = _parse_price_csv_without_fixture_guard(*args, **kwargs)
+    for row in rows:
+        source_url = str(row.get("source_url", "")).strip()
+        if source_url.lower().startswith("fixture://"):
+            raise PriceImportError(
+                "Los fixtures solo sirven para pruebas y no se pueden importar "
+                "al historial del MVP."
+            )
+    return rows
+
+
 if __name__ == "__main__":
     main()
