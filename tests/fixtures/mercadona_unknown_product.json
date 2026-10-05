@@ -1,0 +1,13 @@
+{
+  "store_id": "mercadona",
+  "postal_codes": ["28002"],
+  "products": [
+    {
+      "product_id": "P999",
+      "name": "Producto fuera del catálogo",
+      "price_eur": 1.25,
+      "observed_on": "2026-10-02",
+      "source_url": "fixture://mercadona/P999"
+    }
+  ]
+}

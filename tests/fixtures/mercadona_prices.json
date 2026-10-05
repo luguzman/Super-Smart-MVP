@@ -1,0 +1,40 @@
+{
+  "store_id": "mercadona",
+  "postal_codes": ["28001", "28002"],
+  "products": [
+    {
+      "product_id": "P001",
+      "name": "Guacamole 95% aguacate fresco",
+      "brand": "Hacendado Fresh",
+      "ean": "8480000038401",
+      "category": "Refrigerados",
+      "amount": 0.5,
+      "unit": "kg",
+      "price_eur": 3.99,
+      "observed_on": "2026-10-02",
+      "promotion_eur": 0.2,
+      "loyalty_required": false,
+      "source_url": "fixture://mercadona/P001",
+      "notes": "Fixture local de prueba; no es un precio consultado en red.",
+      "availability": "available",
+      "confidence": "high"
+    },
+    {
+      "product_id": "P002",
+      "name": "Huevos tamaños diferentes (categoría A)",
+      "brand": "Grupo Euromvo (Mercadona)",
+      "ean": "8436559590679",
+      "category": "Huevos",
+      "amount": 24,
+      "unit": "unit",
+      "price_eur": 5.89,
+      "observed_on": "2026-10-02",
+      "promotion_eur": 0,
+      "loyalty_required": false,
+      "source_url": "fixture://mercadona/P002",
+      "notes": "Fixture local de prueba; no es un precio consultado en red.",
+      "availability": "available",
+      "confidence": "medium"
+    }
+  ]
+}

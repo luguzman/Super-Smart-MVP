@@ -1,0 +1,4 @@
+product_id,store,price_eur,observed_on,promotion_eur,loyalty_required,source_url,notes
+P001,BM,3.50,2026-10-02,0.25,no,https://example.invalid/evidence,observación de prueba
+P001,Carrefour,3.60,2026-10-02,0,no,,sin URL
+P002,BM,5.20,2026-10-02,0,si,,precio de socio declarado
