@@ -10,7 +10,7 @@
     <main>
       <header>
         <div>
-          <p class="eyebrow">28002 · Cesta inteligente</p>
+          <p class="eyebrow"><span id="postal-label">28002</span> · Cesta inteligente</p>
           <h1>Super Smart</h1>
           <p class="subtitle">Prioriza el ahorro usando productos idénticos o equivalentes con trazabilidad.</p>
         </div>
@@ -33,6 +33,7 @@
           </div>
           <div id="basket" class="basket empty">Añade productos al carrito.</div>
           <div class="controls">
+            <label>Código postal <input id="postal-code" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" value="28002" required></label>
             <label><input id="equivalents" type="checkbox" checked> Permitir equivalentes</label>
             <label><input id="loyalty" type="checkbox" checked> Aplicar Club Carrefour / Cuenta BM si procede</label>
             <label>Máx. tiendas <input id="max-stores" type="number" min="1" max="5" value="3"></label>

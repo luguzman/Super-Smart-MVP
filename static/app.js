@@ -3,6 +3,7 @@ let basket = [];
 
 const money = value => new Intl.NumberFormat('es-ES', {style: 'currency', currency: 'EUR'}).format(value);
 const byId = id => catalog.find(product => product.id === id);
+const postalCode = () => document.querySelector('#postal-code').value.trim() || '28002';
 
 function optionText(product) {
   const bits = [product.name, product.brand, product.store, product.weight_g ? `${product.weight_g} g` : 'sin formato'];
@@ -70,6 +71,7 @@ async function optimize() {
   if (!basket.length) return;
   const response = await fetch('/api/plan', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({
     items: basket,
+    postal_code: postalCode(),
     allow_equivalents: document.querySelector('#equivalents').checked,
     include_loyalty: document.querySelector('#loyalty').checked,
     max_stores: document.querySelector('#max-stores').value,
@@ -106,6 +108,9 @@ document.querySelector('#add-item').addEventListener('click', () => {
   renderBasket();
 });
 document.querySelector('#optimize').addEventListener('click', optimize);
+document.querySelector('#postal-code').addEventListener('input', event => {
+  document.querySelector('#postal-label').textContent = event.target.value.trim() || '28002';
+});
 document.querySelector('#observation-form').addEventListener('submit', async event => {
   event.preventDefault();
   const response = await fetch('/api/observations', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({
@@ -115,6 +120,7 @@ document.querySelector('#observation-form').addEventListener('submit', async eve
     promotion_eur: document.querySelector('#obs-promo').value,
     observed_on: document.querySelector('#obs-date').value,
     loyalty_required: document.querySelector('#obs-loyalty').checked,
+    postal_code: postalCode(),
   })});
   const payload = await response.json();
   const status = document.querySelector('#observation-status');
@@ -125,7 +131,7 @@ document.querySelector('#import-csv').addEventListener('click', async () => {
   const file = document.querySelector('#csv-file').files[0];
   const status = document.querySelector('#csv-status');
   if (!file) { status.textContent = 'Selecciona un archivo CSV.'; return; }
-  const response = await fetch('/api/import-prices', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({csv_text: await file.text()})});
+  const response = await fetch('/api/import-prices', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({csv_text: await file.text(), postal_code: postalCode()})});
   const payload = await response.json();
   status.textContent = payload.imported ? `Importadas ${payload.imported} observaciones. Vuelve a optimizar.` : payload.error;
 });

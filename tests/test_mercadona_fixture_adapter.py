@@ -51,6 +51,7 @@ class MercadonaFixtureAdapterTests(unittest.TestCase):
         self.assertEqual(observation.availability, "available")
         self.assertEqual(observation.confidence, "high")
         self.assertEqual(observation.unit_price_eur, 7.98)
+        self.assertEqual(observation.postal_code, "28002")
 
     def test_collects_only_requested_products_and_marks_missing(self):
         missing = NormalizedProduct("P003", "No incluido")
@@ -78,6 +79,7 @@ class MercadonaFixtureAdapterTests(unittest.TestCase):
                 rows = list(csv.DictReader(handle))
             self.assertEqual(len(rows), 1)
             self.assertEqual(rows[0]["product_id"], "P001")
+            self.assertEqual(rows[0]["postal_code"], "28002")
             coverage = json.loads(paths["coverage"].read_text(encoding="utf-8"))
             mercadona = [item for item in coverage["chains"] if item["store_id"] == "mercadona"]
             self.assertEqual(len(mercadona), 1)

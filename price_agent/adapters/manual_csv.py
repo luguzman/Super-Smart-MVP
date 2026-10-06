@@ -30,30 +30,40 @@ class ManualCsvAdapter(SupermarketAdapter):
         )
 
     def search_product(self, query: NormalizedProduct, postal_code: str) -> list[NormalizedProduct]:
-        return [query] if query.product_id in self._rows else []
+        return [query] if self._rows_for_postal_code(query.product_id, postal_code) else []
 
     def get_product_details(self, product_url: str, postal_code: str) -> NormalizedProduct | None:
         return None
 
     def get_price(self, product: NormalizedProduct, postal_code: str) -> PriceObservation | None:
-        rows = self._rows.get(product.product_id, [])
+        rows = self._rows_for_postal_code(product.product_id, postal_code)
         if not rows:
             return None
-        return self._observation(rows[0], product)
+        return self._observation(rows[0], product, postal_code)
+
+    def _rows_for_postal_code(self, product_id: str, postal_code: str) -> list[dict]:
+        rows = self._rows.get(product_id, [])
+        scoped = [row for row in rows if row.get("postal_code") == postal_code]
+        scoped_stores = {str(row["store"]).casefold() for row in scoped}
+        legacy = [
+            row for row in rows
+            if not row.get("postal_code") and str(row["store"]).casefold() not in scoped_stores
+        ]
+        return scoped + legacy
 
     def collect(self, products, postal_code: str) -> AdapterResult:
         coverage = self.discover_coverage(postal_code)
         result = AdapterResult(adapter_id=self.adapter_id, coverage=coverage)
         for product in products:
-            rows = self._rows.get(product.product_id, [])
+            rows = self._rows_for_postal_code(product.product_id, postal_code)
             if not rows:
                 result.not_found.append(product.product_id)
                 continue
-            result.observations.extend(self._observation(row, product) for row in rows)
+            result.observations.extend(self._observation(row, product, postal_code) for row in rows)
         return result
 
     @staticmethod
-    def _observation(row: dict, product: NormalizedProduct) -> PriceObservation:
+    def _observation(row: dict, product: NormalizedProduct, postal_code: str) -> PriceObservation:
         amount = product.amount
         unit_price = round(row["price_eur"] / amount, 4) if amount and product.unit else None
         return PriceObservation(
@@ -71,4 +81,5 @@ class ManualCsvAdapter(SupermarketAdapter):
             unit_price_eur=unit_price,
             unit_price_unit=product.unit if unit_price is not None else None,
             original=dict(row),
+            postal_code=row.get("postal_code") or postal_code,
         )

@@ -23,13 +23,13 @@ Abre `http://127.0.0.1:8000` en el navegador.
 
 ## Importar precios recientes
 
-Parte de `examples/precios_28002_template.csv`. Cada fila debe contener producto, supermercado, precio, fecha y, opcionalmente, descuento, requisito de fidelización y URL fuente. Puedes importarlo desde la aplicación o ejecutar:
+Parte de `examples/precios_28002_template.csv`. Cada fila debe contener producto, supermercado, precio, fecha y, opcionalmente, código postal, descuento, requisito de fidelización y URL fuente. Las observaciones de distintos códigos postales se conservan por separado. Puedes importarlo desde la aplicación o ejecutar:
 
 ```bash
-python import_prices.py examples/precios_28002_template.csv
+python import_prices.py examples/precios_28002_template.csv --postal-code 28002
 ```
 
-Una nueva observación del mismo producto, tienda y día sustituye la importada previamente. Las observaciones más recientes prevalecen sobre el precio histórico del catálogo.
+Una nueva observación del mismo producto, tienda, día y código postal sustituye la importada previamente. Las observaciones más recientes del CP seleccionado prevalecen sobre el precio histórico del catálogo.
 
 ## Price Intelligence Agent: fase inicial
 
@@ -65,7 +65,7 @@ Cada ejecución valida el registro y genera, sin importar ni modificar el histor
 Para incorporar el CSV generado al MVP en un paso explícito y separado:
 
 ```bash
-python import_prices.py data/imports/precios_28002_AAAA-MM-DD.csv
+python import_prices.py data/imports/precios_28002_AAAA-MM-DD.csv --postal-code 28002
 ```
 
 Ejecuta las comprobaciones locales con:
@@ -98,7 +98,7 @@ prueba, no evidencia de precios o disponibilidad reales.
 ## Límites conscientes del MVP
 
 - No hace scraping ni consulta precios en tiempo real.
-- No calcula aún ruta, stock, gasto mínimo ni disponibilidad por código postal.
+- No calcula aún ruta, stock ni gasto mínimo; el ámbito de cada precio sí se registra por código postal.
 - Los precios del Excel se marcan como históricos; añade precios recientes para decisiones reales.
 - El importe de fidelización solo se aplica cuando la observación indica que eres elegible.
 

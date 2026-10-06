@@ -33,6 +33,7 @@ class PriceObservation:
     unit_price_eur: float | None = None
     unit_price_unit: str | None = None
     original: dict[str, Any] = field(default_factory=dict)
+    postal_code: str = ""
 
     def as_dict(self) -> dict[str, Any]:
         return asdict(self)

@@ -11,7 +11,7 @@ from price_agent.models import AdapterResult
 
 CSV_FIELDS = [
     "product_id", "store", "price_eur", "observed_on", "promotion_eur",
-    "loyalty_required", "source_url", "notes",
+    "loyalty_required", "source_url", "notes", "postal_code",
 ]
 
 

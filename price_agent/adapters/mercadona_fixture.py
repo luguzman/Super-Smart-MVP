@@ -129,6 +129,7 @@ class MercadonaFixtureAdapter(SupermarketAdapter):
             unit_price_eur=unit_price,
             unit_price_unit=unit if unit_price is not None else None,
             original=dict(row),
+            postal_code=postal_code,
         )
 
     @staticmethod
