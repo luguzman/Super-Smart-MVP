@@ -26,6 +26,11 @@ def validate_observations(observations: list[PriceObservation], catalog_ids: set
             errors.append(f"{prefix}: product_id desconocido ({item.product_id})")
         if not item.store.strip():
             errors.append(f"{prefix}: store vacío")
+        if item.postal_code:
+            try:
+                validate_postal_code(item.postal_code)
+            except ValidationError:
+                errors.append(f"{prefix}: código postal inválido ({item.postal_code})")
         if item.price_eur is None or item.price_eur <= 0:
             errors.append(f"{prefix}: precio ausente o no positivo")
         if item.price_eur is not None and (item.promotion_eur < 0 or item.promotion_eur >= item.price_eur):

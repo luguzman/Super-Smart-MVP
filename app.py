@@ -12,6 +12,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from import_prices import PriceImportError, import_csv_text
+from price_agent.validation import ValidationError, validate_postal_code
 
 
 ROOT = Path(__file__).parent
@@ -58,12 +59,16 @@ def effective_price(observation, include_loyalty):
     return max(0, observation["price_eur"] - observation.get("promotion_eur", 0))
 
 
-def latest_observations(observations):
-    """Evita que un precio histórico gane frente a una captura reciente."""
+def latest_observations(observations, postal_code="28002"):
+    """Evita mezclar CP y prioriza precios específicos sobre el histórico legacy."""
     selected = {}
     for observation in observations:
+        observation_postal = str(observation.get("postal_code") or "").strip()
+        if observation_postal and observation_postal != postal_code:
+            continue
         key = (observation.get("product_id"), str(observation.get("store", "")).lower())
         rank = (
+            observation_postal == postal_code,
             observation.get("observed_on") or "0000-00-00",
             observation.get("source") != "catalogo_historico",
         )
@@ -91,9 +96,14 @@ def build_candidates(requested, products, observations, allow_equivalents, inclu
 
 
 def optimize(payload):
+    try:
+        postal_code = validate_postal_code(payload.get("postal_code") or "28002")
+    except ValidationError:
+        return {"plan": None, "unavailable": [], "message": "Código postal no válido."}
     catalog = {product["id"]: product for product in load_json(DATA / "catalog.json", [])}
     observations = latest_observations(
-        load_json(DATA / "price_observations.json", []) + load_json(CUSTOM_OBSERVATIONS, [])
+        load_json(DATA / "price_observations.json", []) + load_json(CUSTOM_OBSERVATIONS, []),
+        postal_code,
     )
     items = payload.get("items", [])
     include_loyalty = bool(payload.get("include_loyalty", True))
@@ -179,19 +189,27 @@ class Handler(SimpleHTTPRequestHandler):
             catalog = {product["id"] for product in load_json(DATA / "catalog.json", [])}
             if payload["product_id"] not in catalog:
                 return self.send_json({"error": "Producto desconocido."}, HTTPStatus.BAD_REQUEST)
+            try:
+                postal_code = validate_postal_code(payload.get("postal_code") or "28002")
+            except ValidationError:
+                return self.send_json({"error": "Código postal no válido."}, HTTPStatus.BAD_REQUEST)
             rows = load_json(CUSTOM_OBSERVATIONS, [])
             rows.append({
                 "id": f"manual-{len(rows) + 1}", "product_id": payload["product_id"], "store": str(payload["store"]).strip(),
                 "price_eur": float(payload["price_eur"]), "observed_on": payload.get("observed_on") or date.today().isoformat(),
                 "promotion_eur": float(payload.get("promotion_eur") or 0), "loyalty_required": bool(payload.get("loyalty_required")),
-                "source": "entrada_manual", "confidence": "alta",
+                "source": "entrada_manual", "confidence": "alta", "postal_code": postal_code,
             })
             CUSTOM_OBSERVATIONS.write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
             return self.send_json({"saved": True})
         if route == "/api/import-prices":
             try:
-                imported = import_csv_text(payload.get("csv_text", ""), DATA / "catalog.json", CUSTOM_OBSERVATIONS)
-            except PriceImportError as error:
+                postal_code = validate_postal_code(payload.get("postal_code") or "28002")
+                imported = import_csv_text(
+                    payload.get("csv_text", ""), DATA / "catalog.json", CUSTOM_OBSERVATIONS,
+                    default_postal_code=postal_code,
+                )
+            except (PriceImportError, ValidationError) as error:
                 return self.send_json({"error": str(error)}, HTTPStatus.BAD_REQUEST)
             return self.send_json({"imported": len(imported)})
         return self.send_json({"error": "Ruta no encontrada"}, HTTPStatus.NOT_FOUND)

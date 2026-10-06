@@ -78,6 +78,22 @@ class RegistryAndAdapterTests(unittest.TestCase):
         result = adapter.collect([product], "28002")
         self.assertEqual(len(result.observations), 2)
         self.assertEqual(result.observations[0].unit_price_eur, 7.0)
+        self.assertTrue(all(item.postal_code == "28002" for item in result.observations))
+
+    def test_manual_adapter_does_not_mix_postal_codes(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            csv_path = Path(temporary) / "prices.csv"
+            csv_path.write_text(
+                "product_id,store,price_eur,observed_on,postal_code\n"
+                "P001,BM,3.00,2026-10-02,28002\n"
+                "P001,BM,1.00,2026-10-02,08001\n",
+                encoding="utf-8",
+            )
+            adapter = ManualCsvAdapter(csv_path, {"P001"})
+            result = adapter.collect([NormalizedProduct("P001", "Producto")], "28002")
+        self.assertEqual(len(result.observations), 1)
+        self.assertEqual(result.observations[0].price_eur, 3.0)
+        self.assertEqual(result.observations[0].postal_code, "28002")
 
     def test_runner_targets_products_and_generates_four_compatible_outputs(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -95,8 +111,9 @@ class RegistryAndAdapterTests(unittest.TestCase):
             self.assertEqual(len(rows), 2)
             self.assertEqual(set(rows[0]), {
                 "product_id", "store", "price_eur", "observed_on", "promotion_eur",
-                "loyalty_required", "source_url", "notes",
+                "loyalty_required", "source_url", "notes", "postal_code",
             })
+            self.assertTrue(all(row["postal_code"] == "28002" for row in rows))
             coverage = json.loads(paths["coverage"].read_text(encoding="utf-8"))
             self.assertEqual(coverage["requested_products"], 1)
             self.assertEqual(coverage["observations"], 2)
